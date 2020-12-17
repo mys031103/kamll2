@@ -36,7 +36,7 @@ public class AttrServiceImpl implements AttrService {
         return pmsBaseAttrInfos;
     }
 
-   /* @Override
+   @Override
     public Integer saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo) {
         int i=0;
         //判断是添加还是修改
@@ -71,6 +71,6 @@ public class AttrServiceImpl implements AttrService {
             pmsBaseAttrValues=pmsBaseAttrValueMapper.selectByExample(null);
         }
         return pmsBaseAttrValues;
-    }*/
+    }
 
 }

@@ -8,7 +8,6 @@
     <result column="is_enabled" property="isEnabled" jdbcType="VARCHAR" />
   </resultMap>
 
-  <!--批量添加-->
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

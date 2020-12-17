@@ -21,12 +21,13 @@ public class AttrController {
     public List<PmsBaseAttrInfo> spuList(Long catalog3Id) {
         return attrService.attrInfoList(catalog3Id);
     }
-   /* @RequestMapping("saveAttrInfo")
+    @RequestMapping("saveAttrInfo")
     public int saveAttrInfo(@RequestBody PmsBaseAttrInfo pmsBaseAttrInfo) {
         return attrService.saveAttrInfo(pmsBaseAttrInfo);
     }
+
     @RequestMapping("getAttrValueList")
     public List<PmsBaseAttrValue> getAttrValueList(Long attrId) {
         return attrService.getAttrValueList(attrId);
-    }*/
+    }
 }
