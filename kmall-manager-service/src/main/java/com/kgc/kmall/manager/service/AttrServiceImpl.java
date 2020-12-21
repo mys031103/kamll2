@@ -36,28 +36,33 @@ public class AttrServiceImpl implements AttrService {
         return pmsBaseAttrInfos;
     }
 
-   @Override
+    @Override
     public Integer saveAttrInfo(PmsBaseAttrInfo pmsBaseAttrInfo) {
-        int i=0;
-        //判断是添加还是修改
-        if (pmsBaseAttrInfo.getId()==null){
-            //添加
-            i = pmsBaseAttrInfoMapper.insert(pmsBaseAttrInfo);
-        }else{
-            //修改
-            i=pmsBaseAttrInfoMapper.updateByPrimaryKey(pmsBaseAttrInfo);
+        try {
+            //判断是添加还是修改
+            if (pmsBaseAttrInfo.getId()==null){
+                //添加 并返回attrId
+                pmsBaseAttrInfoMapper.insert(pmsBaseAttrInfo);
+            }else{
+                //修改
+                pmsBaseAttrInfoMapper.updateByPrimaryKey(pmsBaseAttrInfo);
+                //删除原属性值
+                PmsBaseAttrValueExample example=new PmsBaseAttrValueExample();
+                PmsBaseAttrValueExample.Criteria criteria = example.createCriteria();
+                criteria.andAttrIdEqualTo(pmsBaseAttrInfo.getId());
+                pmsBaseAttrValueMapper.deleteByExample(example);
+            }
+            //多添加新属性值
+            if (pmsBaseAttrInfo.getAttrValueList().size()>0){
+                pmsBaseAttrValueMapper.insertBatch(pmsBaseAttrInfo.getId(),pmsBaseAttrInfo.getAttrValueList());
+            }
+            //System.out.println(i);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return -1;
         }
-        //删除原属性值
-        PmsBaseAttrValueExample example=new PmsBaseAttrValueExample();
-        PmsBaseAttrValueExample.Criteria criteria = example.createCriteria();
-        criteria.andAttrIdEqualTo(pmsBaseAttrInfo.getId());
-        i = pmsBaseAttrValueMapper.deleteByExample(example);
-        //添加新属性值
-        if (pmsBaseAttrInfo.getAttrValueList().size()>0){
-            i=pmsBaseAttrValueMapper.insertBatch(pmsBaseAttrInfo.getId(),pmsBaseAttrInfo.getAttrValueList());
-        }
-        //System.out.println(i);
-        return i;
+
     }
 
     @Override

@@ -11,9 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
-
-@Component
 @Service
+@Component
 public class CatalogServiceImpl implements CatalogService {
     @Resource
     PmsBaseCatalog1Mapper pmsBaseCatalog1Mapper;
@@ -26,21 +25,29 @@ public class CatalogServiceImpl implements CatalogService {
     public List<PmsBaseCatalog1> getCatalog1() {
         return pmsBaseCatalog1Mapper.selectByExample(null);
     }
-
     @Override
     public List<PmsBaseCatalog2> getCatalog2(Integer catalog1Id) {
-        PmsBaseCatalog2Example example=new PmsBaseCatalog2Example();
-        PmsBaseCatalog2Example.Criteria criteria = example.createCriteria();
-        criteria.andCatalog1IdEqualTo(catalog1Id);
-        List<PmsBaseCatalog2> catalog2List = pmsBaseCatalog2Mapper.selectByExample(example);
-        return catalog2List;
+        PmsBaseCatalog2Example pmsBaseCatalog2Example=new PmsBaseCatalog2Example();
+        List<PmsBaseCatalog2> pmsBaseCatalog2s;
+        if(catalog1Id!=null){
+            pmsBaseCatalog2Example.createCriteria().andCatalog1IdEqualTo(catalog1Id);
+            pmsBaseCatalog2s=pmsBaseCatalog2Mapper.selectByExample(pmsBaseCatalog2Example);
+        }else{
+            pmsBaseCatalog2s=pmsBaseCatalog2Mapper.selectByExample(null);
+        }
+        return pmsBaseCatalog2s;
     }
 
     @Override
     public List<PmsBaseCatalog3> getCatalog3(Long catalog2Id) {
         PmsBaseCatalog3Example pmsBaseCatalog3Example=new PmsBaseCatalog3Example();
-        pmsBaseCatalog3Example.createCriteria().andCatalog2IdEqualTo(catalog2Id);
-        List<PmsBaseCatalog3> pmsBaseCatalog3s=pmsBaseCatalog3Mapper.selectByExample(pmsBaseCatalog3Example);
+        List<PmsBaseCatalog3> pmsBaseCatalog3s;
+        if(catalog2Id!=null){
+            pmsBaseCatalog3Example.createCriteria().andCatalog2IdEqualTo(catalog2Id);
+            pmsBaseCatalog3s=pmsBaseCatalog3Mapper.selectByExample(pmsBaseCatalog3Example);
+        }else{
+            pmsBaseCatalog3s=pmsBaseCatalog3Mapper.selectByExample(null);
+        }
         return pmsBaseCatalog3s;
     }
 }

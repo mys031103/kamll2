@@ -19,6 +19,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.csource</groupId>
+			<artifactId>fastdfs-client-java</artifactId>
+			<version>1.29-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.kgc.kmall</groupId>
 			<artifactId>kmall-web-util</artifactId>
 			<version>1.0-SNAPSHOT</version>
@@ -27,6 +32,17 @@
 			<groupId>com.kgc.kmall</groupId>
 			<artifactId>kmall-api</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.csource</groupId>
+			<artifactId>fastdfs-client-java</artifactId>
+			<version>1.29-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

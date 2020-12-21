@@ -25,7 +25,6 @@ public class AttrController {
     public int saveAttrInfo(@RequestBody PmsBaseAttrInfo pmsBaseAttrInfo) {
         return attrService.saveAttrInfo(pmsBaseAttrInfo);
     }
-
     @RequestMapping("getAttrValueList")
     public List<PmsBaseAttrValue> getAttrValueList(Long attrId) {
         return attrService.getAttrValueList(attrId);
