@@ -98,6 +98,14 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
+  <insert id="insertImage">
+    INSERT into pms_product_image(product_id,img_name,img_url) VALUES
+    <foreach collection="imageList" item="img" separator=",">
+      (#{productId},#{img.imgName},#{img.imgUrl})
+    </foreach>
+  </insert>
+
   <insert id="insert" parameterType="com.kgc.kmall.bean.PmsProductImage" >
     insert into pms_product_image (id, product_id, img_name, 
       img_url)

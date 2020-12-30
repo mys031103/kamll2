@@ -28,4 +28,5 @@ public interface PmsProductInfoMapper {
     int updateByPrimaryKeySelective(PmsProductInfo record);
 
     int updateByPrimaryKey(PmsProductInfo record);
+
 }

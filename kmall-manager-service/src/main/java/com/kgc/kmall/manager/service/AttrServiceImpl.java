@@ -7,15 +7,13 @@ import com.kgc.kmall.bean.PmsBaseAttrValueExample;
 import com.kgc.kmall.manager.mapper.PmsBaseAttrInfoMapper;
 import com.kgc.kmall.manager.mapper.PmsBaseAttrValueMapper;
 import com.kgc.kmall.service.AttrService;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Component;import org.apache.dubbo.config.annotation.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
 @Component
 @Service
-
 public class AttrServiceImpl implements AttrService {
     @Resource
     PmsBaseAttrInfoMapper pmsBaseAttrInfoMapper;
