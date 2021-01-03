@@ -28,4 +28,5 @@ public interface PmsSkuImageMapper {
     int updateByPrimaryKeySelective(PmsSkuImage record);
 
     int updateByPrimaryKey(PmsSkuImage record);
+
 }

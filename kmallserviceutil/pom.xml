@@ -10,12 +10,18 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <!--parent父类依赖-->
-
     <groupId>com.kgc.kmall</groupId>
     <artifactId>kmall-service-util</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+
     <!--y依赖-->
     <dependencies>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.kgc.kmall</groupId>
             <artifactId>kmall-common-util</artifactId>
@@ -37,5 +43,4 @@
         </dependency>
     </dependencies>
     <!--y依赖-->
-    
 </project>

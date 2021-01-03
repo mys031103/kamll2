@@ -28,5 +28,4 @@ public interface PmsProductSaleAttrValueMapper {
     int updateByPrimaryKeySelective(PmsProductSaleAttrValue record);
 
     int updateByPrimaryKey(PmsProductSaleAttrValue record);
-
 }

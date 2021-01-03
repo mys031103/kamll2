@@ -67,6 +67,7 @@ public class SpuServiceImpl implements SpuService {
             return 0;
         }
     }
+
     @Override
     public List<PmsProductSaleAttr> spuSaleAttrList(Long spuId) {
         PmsProductSaleAttrExample example=new PmsProductSaleAttrExample();
@@ -94,8 +95,9 @@ public class SpuServiceImpl implements SpuService {
     }
 
     @Override
-    public List<PmsProductSaleAttr> spuSaleAttrListIsCheck(Long spuId, Long id) {
-        return pmsProductSaleAttrMapper.spuSaleAttrListIsCheck(spuId,id);
+    public List<PmsProductSaleAttr> spuSaleAttrListIsCheck(Long spuId, Long skuId) {
+        List<PmsProductSaleAttr> pmsProductSaleAttrList = pmsProductSaleAttrMapper.spuSaleAttrListIsCheck(spuId, skuId);
+        return pmsProductSaleAttrList;
     }
 
 
