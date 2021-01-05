@@ -1,4 +1,4 @@
-package com.kgc.kmall.manager;
+package com.kgc.kmall;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
