@@ -1,8 +1,10 @@
 package com.kgc.kmall.bean;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.io.Serializable;
 import java.util.List;
-
+@Document(indexName = "kmall",type = "PmsSkuInfo")
 public class PmsSearchSkuInfo implements Serializable {
     private Long id;
     private String skuName;
