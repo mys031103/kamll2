@@ -7,13 +7,13 @@ import com.kgc.kmall.manager.mapper.PmsSkuImageMapper;
 import com.kgc.kmall.manager.mapper.PmsSkuInfoMapper;
 import com.kgc.kmall.manager.mapper.PmsSkuSaleAttrValueMapper;
 import com.kgc.kmall.service.SkuService;
-import com.kgc.kmall.utils.RedisUtil;
+
+import com.kgc.kmall.util.RedisUtil;
 import org.apache.dubbo.config.annotation.Service;
 import org.redisson.api.RedissonClient;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
-
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,5 @@
-package com.kgc.kmall.utils;
+package com.kgc.kmall.util;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
