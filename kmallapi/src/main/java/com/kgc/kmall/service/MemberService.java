@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface MemberService {
     List<Member> selectAllMember();
+    Member login(Member member);
+
+    void addUserToken(String token, Long memberId);
 }
