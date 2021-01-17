@@ -1,5 +1,7 @@
 package com.kgc.kmall.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.kgc.kmall.annotations.LoginRequired;
 import com.kgc.kmall.bean.*;
 import com.kgc.kmall.service.AttrService;
 import com.kgc.kmall.service.SearchService;
@@ -17,25 +19,29 @@ public class SearchController {
     SearchService searchService;
     @Reference
     AttrService attrService;
-    @RequestMapping("index.html")
-    public String index(){
+
+    @LoginRequired(false)
+    @RequestMapping("/index.html")
+    public String index() {
         return "index";
     }
 
     @RequestMapping("/list.html")
-    public String list(PmsSearchSkuParam pmsSearchSkuParam, Model model){
+    public String list(PmsSearchSkuParam pmsSearchSkuParam, Model model) {
+        //进行数据查询
         List<PmsSearchSkuInfo> pmsSearchSkuInfos = searchService.list(pmsSearchSkuParam);
         model.addAttribute("skuLsInfoList", pmsSearchSkuInfos);
-
-        //获取平台属性valueId
-        Set<Long> valueIdSet=new HashSet<>();
-
+        //获取平台属性Id并给平台属性去重
+        Set<Long> valueIdSet = new HashSet<>();
         for (PmsSearchSkuInfo pmsSearchSkuInfo : pmsSearchSkuInfos) {
-            for (PmsSkuAttrValue pmsSkuAttrValue : pmsSearchSkuInfo.getSkuAttrValueList()) {
-                valueIdSet.add(pmsSkuAttrValue.getValueId());
-              //  System.out.println(pmsSkuAttrValue.getValueId());
+            for (int i = 0; i < pmsSearchSkuInfo.getSkuAttrValueList().size(); i++) {
+                Map<Object, Object> pmSkuAttrValue = (Map<Object, Object>) pmsSearchSkuInfo.getSkuAttrValueList().get(i);
+                //   System.out.println(pmsSearchSkuInfo);
+                valueIdSet.add(Long.parseLong(pmSkuAttrValue.get("valueId").toString()));
             }
         }
+        System.out.println(valueIdSet);
+
         //商品筛选查询
         List<PmsBaseAttrInfo> pmsBaseAttrInfos = attrService.selectAttrInfoValueListByValueId(valueIdSet);
         // 已选中的valueId
@@ -80,6 +86,7 @@ public class SearchController {
         model.addAttribute("keyword", pmsSearchSkuParam.getKeyword());
         return "list";
     }
+
     /**
      * 根据条件对象拼接URL
      *
