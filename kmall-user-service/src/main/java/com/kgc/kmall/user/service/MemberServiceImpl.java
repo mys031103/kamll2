@@ -103,4 +103,9 @@ public class MemberServiceImpl implements MemberService {
         List<Member_Receive_Address> member_receive_addresses = member_receive_addressMapper.selectByExample(example);
         return member_receive_addresses;
     }
+
+    @Override
+    public Member_Receive_Address getReceiveAddressById(Long receiveAddressId) {
+        return member_receive_addressMapper.selectByPrimaryKey(receiveAddressId);
+    }
 }

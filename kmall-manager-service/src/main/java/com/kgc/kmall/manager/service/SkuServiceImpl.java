@@ -7,18 +7,16 @@ import com.kgc.kmall.manager.mapper.PmsSkuImageMapper;
 import com.kgc.kmall.manager.mapper.PmsSkuInfoMapper;
 import com.kgc.kmall.manager.mapper.PmsSkuSaleAttrValueMapper;
 import com.kgc.kmall.service.SkuService;
-
 import com.kgc.kmall.util.RedisUtil;
 import org.apache.dubbo.config.annotation.Service;
 import org.redisson.api.RedissonClient;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
+
 import javax.annotation.Resource;
-import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 
 @Service
@@ -32,11 +30,10 @@ public class SkuServiceImpl implements SkuService {
     PmsSkuInfoMapper pmsSkuInfoMapper;
     @Resource
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
-
-    RedisUtil redisUtil = new RedisUtil();
     @Resource
     RedissonClient redissonClient;
 
+    RedisUtil redisUtil = new RedisUtil();
     @Override
     public String saveSkuInfo(PmsSkuInfo skuInfo) {
         pmsSkuInfoMapper.insert(skuInfo);
@@ -130,27 +127,26 @@ public class SkuServiceImpl implements SkuService {
             jedis.close();
             return pmsSkuInfo;
         } else {
-            //声明锁
-            Lock lock = redissonClient.getLock("lock");
+            Lock lock = redissonClient.getLock("lock");//声明锁
             lock.lock();//上锁
             try {
-                System.out.println("数据库");
-                //缓存中无数据，从数据库读取并缓存
-                pmsSkuInfo = pmsSkuInfoMapper.selectByPrimaryKey(skuId);
+            System.out.println("数据库");
+            //缓存中无数据，从数据库读取并缓存
+            pmsSkuInfo = pmsSkuInfoMapper.selectByPrimaryKey(skuId);
 
-                if (pmsSkuInfo != null) {
-                    String json = JSON.toJSONString(pmsSkuInfo);
-                    //缓存写入随机有效期，防止缓存雪崩
-                    System.out.println("缓存写入有效期防止缓存雪崩");
-                    Random random = new Random();
-                    int i = random.nextInt(10);
-                    jedis.setex(key, i * 60 * 1000, json);
-                } else {
-                    //如果数据库和缓存都没有数据就写入缓存中一条数据，设置有效期，防止缓存穿透
-                    System.out.println("写入数据库没有的缓存数据");
-                    jedis.setex(key, 5 * 60 * 1000, "empty");
-                }
-                jedis.close();
+            if (pmsSkuInfo != null) {
+                String json = JSON.toJSONString(pmsSkuInfo);
+                //缓存写入随机有效期，防止缓存雪崩
+                System.out.println("缓存写入有效期防止崩");
+                Random random = new Random();
+                int i = random.nextInt(10);
+                jedis.setex(key, i * 60 * 1000, json);
+            } else {
+                //如果数据库和缓存都没有数据就写入缓存中一条数据，设置有效期，防止缓存穿透
+                System.out.println("写入数据库没有的缓存数据");
+                jedis.setex(key, 5 * 60 * 1000, "empty");
+            }
+            jedis.close();
             } finally {
                 lock.unlock();//解锁
             }
@@ -160,6 +156,7 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public List<PmsSkuInfo> selectBySpuId(Long spuId) {
+
         return pmsSkuInfoMapper.selectBySpuId(spuId);
     }
 
@@ -174,6 +171,23 @@ public class SkuServiceImpl implements SkuService {
             pmsSkuInfo.setSkuAttrValueList(pmsSkuAttrValues);
         }
         return pmsSkuInfos;
+    }
+
+    @Override
+    public boolean checkPrice(Long productSkuId, BigDecimal price) {
+        //验证数据库和购物车订单价格是否一样
+        boolean b = false;
+
+
+        PmsSkuInfo pmsSkuInfo1 = pmsSkuInfoMapper.selectByPrimaryKey(productSkuId);
+
+        BigDecimal price1 = new BigDecimal(pmsSkuInfo1.getPrice());
+
+        if(price.compareTo(price1)==0){
+            b = true;
+        }
+
+        return b;
     }
 
 }

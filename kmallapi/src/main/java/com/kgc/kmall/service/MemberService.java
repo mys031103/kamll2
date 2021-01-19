@@ -17,4 +17,6 @@ public interface MemberService {
     void addOauthUser(Member umsMember);
 
     List<Member_Receive_Address> getReceiveAddressByMemberId(Long memberId);
+
+    Member_Receive_Address getReceiveAddressById(Long receiveAddressId);
 }
