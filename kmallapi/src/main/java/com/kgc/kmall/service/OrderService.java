@@ -9,4 +9,6 @@ public interface OrderService {
 
     void saveOrder(Order order);
     Order getOrderByOutTradeNo(String outTradeNo);
+
+    public void updateOrder(Order omsOrder);
 }

@@ -75,5 +75,16 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public void updateOrder(Order omsOrder) {
+        OrderExample example=new OrderExample();
+        OrderExample.Criteria criteria=example.createCriteria();
+        criteria.andOrderSnEqualTo(omsOrder.getOrderSn());
+        omsOrder.setStatus(1);
+        System.out.println("修改");
+        orderMapper.updateByExampleSelective(omsOrder,example);
+
+    }
+
 
 }
